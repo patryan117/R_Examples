@@ -1,0 +1,135 @@
+library(ggplot2)
+library(e1071)
+library(dplyr)
+library(plotly)
+library(magrittr)
+
+
+# The data in this document gives the number of meals eaten that contain fish (per week) and mercury levels in head hair for 100 fisherman.  
+# Save the data to a format that can be read into R.  Read the data in for analysis.  
+# Use R to calculate the quantities and generate the visual summaries requested below.
+
+
+# (1) Save the data to excel or CSV file and read into R for analysis.  (1 point)
+
+setwd("C:/Users/patry/OneDrive/Desktop")
+
+# Assign the .csv information to a dataframe
+df = read.csv("homework4.csv", header=T, sep=",", fileEncoding="UTF-8-BOM", stringsAsFactors = F)
+df
+
+library(plotly)
+
+
+
+#####################################################################################################
+
+
+# (2) To get a sense of the data, generate a scatterplot to examine the association between prestige score and years of education. 
+# Briefly describe the form, direction, and strength of the association between the variables. 
+# Calculate the correlation.  (3 points)
+
+model <- lm(df$Prestige.Score ~ df$Education.Level..years.)
+model
+
+x <- list(  title = "Education Level (Years)")
+y <- list(  title = "Prestige Score")
+
+plot.1 <- df %>% 
+  plot_ly(x = df$Education.Level..years.) %>% 
+  add_markers(y = df$Prestige.Score, name="Observation") %>% 
+  add_lines( y = fitted(model), name="Beta.1 Projection") %>%
+  layout(xaxis = x, yaxis = y)
+
+plot.1
+
+
+#Description:
+
+# The data's form is well formed, and appears to be near-linear
+# The data's direction is positive
+# Strength seems to increase as education level increases.
+
+r <- cor(df$Prestige.Score, df$Education.Level..years.) 
+r  # 0.8501769
+
+
+#####################################################################################################
+
+
+
+# (3) Perform a simple linear regression.  Generate a residual plot.  
+# Assess whether the model assumptions are met.  Are there any outliers or influence points?  
+# If so, identify them by ID and comment on the effect of each on the regression. (4 points)
+
+model <- lm(df$Prestige.Score ~ df$Education.Level..years.)
+model
+
+# No outliers calculated in the education and prestige (using the built-in boxplot method)
+boxplot(df$Education.Level..years.)$out
+boxplot(df$Prestige.Score)$out
+
+
+
+#########################################################################################################
+
+
+
+# (4) Calculate the least squares regression equation that predicts prestige from education, income and percentage of women. 
+# Formally test whether the set of these predictors are associated with prestige at the   = 0.05 level.  (4 points)
+model.2 <- lm(df$Prestige.Score ~ df$Education.Level..years. + df$Percent.of.Workforce.that.are.Women)
+model.2
+
+library(plotly)
+
+
+
+p <- plot_ly(df, x = ~df$Prestige.Score, y = ~df$Education.Level..years., z = ~df$Percent.of.Workforce.that.are.Women) %>%
+  add_markers() %>%
+  layout(scene = list(xaxis = list(title = 'Prestige'),
+                      yaxis = list(title = 'Educational Level'),
+                      zaxis = list(title = '% Workforce Female')))
+
+p
+
+
+
+
+
+# (5) If the overall model was significant, summarize the information about the contribution of each variable separately at the same significance level as used for the overall model (no need to do a formal 5-step procedure for each one, just comment on the results of the tests). 
+# Provide interpretations for any estimates that were significant.   Calculate 95% confidence intervals where appropriate. (4 points)
+
+
+
+# (6) Generate a residual plot showing the fitted values from the regression against the residuals.  Is the fit of the model reasonable? (2 points)
+
+eruption.lm = lm(eruptions ~ waiting, data=faithful) 
+residuals = resid(model)
+residuals
+plot(residuals///////////)
+abline(0,0)
+
+plot(faithful$waiting, eruption.res, 
+       +     ylab="Residuals", xlab="Waiting Time", 
+       +     main="Old Faithful Eruptions") 
+abline(0, 0) 
+
+# (7) Are there any outliers or influence points?  (2 points)
+
+
+
+
+eruption.lm = lm(eruptions ~ waiting, data=faithful) 
+eruption.res = resid(eruption.lm)
+eruption.res
+plot(faithful$waiting, eruption.res, 
+       +     ylab="Residuals", xlab="Waiting Time", 
+       +     main="Old Faithful Eruptions") 
+abline(0, 0)                  # the horizon
+
+
+
+
+
+
+
