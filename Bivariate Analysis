@@ -38,15 +38,6 @@ plot.1
 
 
 
-
-
-
-
-
-
-
-
-
 # (3) Calculate the correlation coefficient.  What does the correlation tell us? (Q3 - 2 points)
 
 cor(df$Number.of.meals.with.fish, df$Total.Mercury.in.mg.g)
@@ -58,7 +49,6 @@ cor(df$Number.of.meals.with.fish, df$Total.Mercury.in.mg.g)
 
 # (4) Find the equation of the least squares regression equation, and write out the equation.  
 # Add the regression line to the scatterplot you generated above. (Q4 - 4 points)
-
 
 
 
@@ -84,9 +74,8 @@ plot.2 <- df %>%
   add_lines( y = fitted(model), name="Beta.1 Projection") %>%
   layout(xaxis = x, yaxis = y)
 
-
-
 plot.2
+
 
 # print intercept and slope
 model
@@ -162,112 +151,3 @@ f  # 93.68853
 # E.g. there is evidence of a significant linear association between a fish-based diet and mercury levels.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Scratchpad
-
-
-# 3 different ways to calculate r squared:
-
-# Regression sum of squares / total sum of squares:
-
-anova.table <- anova(model)
-ss.reg <- anova.table$`Sum Sq`[1]
-ss.total <- anova.table$`Sum Sq`[1] + anova.table$`Sum Sq`[2]
-ss.reg / ss.total
-
-# [1] 0.488754
-
-# Squaring the correlation coefficient (r):
-cor(df$Number.of.meals.with.fish, df$Total.Mercury.in.mg.g)^2
-# [1] 0.488754
-
-
-# Built-in anova test function
-anova.table <- summary(model)
-anova.table$r.squared
-# [1] 0.488754
-
-
-
-
-
-# Construct a 90% confidence interal:
-
-alpha <- 0.05
-t <- qt((1-alpha/2), df=98)
-t
-SE.b.1 <- anova.table$coefficients[4]
-b.1 <-  anova.table$coefficients[2]
-
-lower <- b.1 - (t * SE.b.1)
-upper <- b.1 + (t * SE.b.1)
-
-lower  # 0.228609
-upper  # 0.3232916
-
-# Using the t-distribution, we are 90% confident that the true value of Beta.1 is between 0.2275092 and 0.3243913
-
-
-# Alternatively, we can conduct the same test, using R's builtin confint function:
-
-confint(model,level = 0.9)
-
-anova.table
-
-
-0.27595 / 0.02851
-
-
-# Scratchpad
-
-
-
-model <- lm(Total.Mercury.in.mg.g ~ Number.of.meals.with.fish, data = df)
-coef(model)
-
-r <- cov(df$Total.Mercury.in.mg.g, df$Number.of.meals.with.fish)
-x.sd <- sd(df$Number.of.meals.with.fish)
-y.sd <- sd(df$Total.Mercury.in.mg.g)
-y.sd   #2.528044
-x.sd   #6.404702
-
-r <- cor(df$Total.Mercury.in.mg.g, df$Number.of.meals.with.fish)
-r  
-
-beta.1 <- r*(y.sd/ x.sd)
-beta.1  #4.468012
-
-
-
-
-ss.reg <- 10
-ss.total <- 30
-ss.reg / ss.total
-
-
-x <- c( 1,2,2,3,4)
-y <- c(1,2,3,2,4)
-cor(y,x)
-
-
-qt(.975, df=29)
