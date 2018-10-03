@@ -1,3 +1,4 @@
+
 library(ggplot2)
 library(e1071)
 library(dplyr)
@@ -9,8 +10,7 @@ library(magrittr)
 # Save the data to a format that can be read into R.  Read the data in for analysis.  
 # Use R to calculate the quantities and generate the visual summaries requested below.
 
-
-# (1) Save the data to excel or CSV file and read into R for analysis.  (1 point)
+# (1) Save the data to excel or CSV file and read into R for analysis.
 
 setwd("C:/Users/patry/OneDrive/Desktop")
 
@@ -27,7 +27,7 @@ library(plotly)
 
 # (2) To get a sense of the data, generate a scatterplot to examine the association between prestige score and years of education. 
 # Briefly describe the form, direction, and strength of the association between the variables. 
-# Calculate the correlation.  (3 points)
+# Calculate the correlation. 
 
 model <- lm(df$Prestige.Score ~ df$Education.Level..years.)
 model
@@ -57,7 +57,6 @@ r  # 0.8501769
 #####################################################################################################
 
 
-
 # (3) Perform a simple linear regression.  Generate a residual plot.  
 # Assess whether the model assumptions are met.  Are there any outliers or influence points?  
 # If so, identify them by ID and comment on the effect of each on the regression. (4 points)
@@ -76,13 +75,11 @@ boxplot(df$Prestige.Score)$out
 
 
 # (4) Calculate the least squares regression equation that predicts prestige from education, income and percentage of women. 
-# Formally test whether the set of these predictors are associated with prestige at the   = 0.05 level.  (4 points)
+# Formally test whether the set of these predictors are associated with prestige at the   = 0.05 level. 
 model.2 <- lm(df$Prestige.Score ~ df$Education.Level..years. + df$Percent.of.Workforce.that.are.Women)
 model.2
 
 library(plotly)
-
-
 
 p <- plot_ly(df, x = ~df$Prestige.Score, y = ~df$Education.Level..years., z = ~df$Percent.of.Workforce.that.are.Women) %>%
   add_markers() %>%
@@ -93,15 +90,7 @@ p <- plot_ly(df, x = ~df$Prestige.Score, y = ~df$Education.Level..years., z = ~d
 p
 
 
-
-
-
-# (5) If the overall model was significant, summarize the information about the contribution of each variable separately at the same significance level as used for the overall model (no need to do a formal 5-step procedure for each one, just comment on the results of the tests). 
-# Provide interpretations for any estimates that were significant.   Calculate 95% confidence intervals where appropriate. (4 points)
-
-
-
-# (6) Generate a residual plot showing the fitted values from the regression against the residuals.  Is the fit of the model reasonable? (2 points)
+# (5) Generate a residual plot showing the fitted values from the regression against the residuals. 
 
 eruption.lm = lm(eruptions ~ waiting, data=faithful) 
 residuals = resid(model)
@@ -114,9 +103,8 @@ plot(faithful$waiting, eruption.res,
        +     main="Old Faithful Eruptions") 
 abline(0, 0) 
 
-# (7) Are there any outliers or influence points?  (2 points)
 
-
+# (6) Identify outliers or influence points?  
 
 
 eruption.lm = lm(eruptions ~ waiting, data=faithful) 
