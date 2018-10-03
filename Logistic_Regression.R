@@ -8,8 +8,7 @@ library(magrittr)
 library(pROC)
 library(aod)
 
-# (1) We are interested in whether the proportion of men and women with body temperatures greater than or
-# equal to 98.6 degrees Fahrenheit are equal. Therefore, we need to dichotomize the body temperature variable.
+
 # Create a new variable, called "temp_level" in which temp_level = 1 if body temperature >= 98.6 and temp_level=0
 # if body temperature < 98.6. (1 point)
 
@@ -29,7 +28,7 @@ df
 
 
 
-# (2) Summarize the data relating to body temperature level by sex. (2 points)
+# Summarize the data relating to body temperature level by sex. (2 points)
 
 plot.1 <- plot_ly(df, y = ~temp, x=~sex, type = "box")
 plot.1
@@ -53,10 +52,10 @@ prop.women.above.temp.level
 
 
 
-# (3) Calculate the risk difference.  
+# Calculate the risk difference.  
 # Formally test (at the ??=.05 level) whether the proportion of people with higher body temperatures 
 # (greater than or equal to 98.6) is the same across men and women, based on this effect measure.  
-# Do females have higher body temperatures than males? (4.5 points)
+# Do females have higher body temperatures than males? 
 
 df
 
@@ -125,12 +124,10 @@ z
 #********************************************************************************************
 
 
-# (4) Perform a logistic regression with sex as the only explanatory variable. 
+# Perform a logistic regression with sex as the only explanatory variable. 
 # Formally test (at the ??=.05 level) if the odds of having a temperature 
-# greater than or equal to 98.6 is the same between males and females.   
-# Include the odds ratio for sex and the associated 95% confidence interval 
-# based on the model in your summary and interpret this value.  
-# What is the c-statistic for this model? (5.5 points)
+# greater than or equal to 98.6 is the same between males and females. 
+
 
 logistic.model <- glm(df$temp_level~df$is.girl, family=binomial)
 summary.table <- summary(logistic.model)
@@ -200,10 +197,7 @@ g.1  # 0.672
 #************************************************************************************************
 
 
-# (5) Perform a multiple logistic regression predicting body temperature level from sex and heart rate.
-# Summarize briefly the output from this model. 
-# Give the odds ratio for sex and heart rate (for a 10 beat increase).
-# What is the c-statistic of this model?  (5 points)
+# Perform a multiple logistic regression predicting body temperature level from sex and heart rate.
 
 
 logistic.model <- glm(df$temp_level ~ df$is.girl + df$Heart.rate, family=binomial)
@@ -240,9 +234,9 @@ g.2 # 0.7289
 
 #***********************************************************************************************
 
-# (6) Which model fit the data better?  
+# Which model fit the data better?  
 # Support your response with evidence from your output.  
-# Present the ROC curve for the model you choose. (2 points)
+# Present the ROC curve for the model you choose. 
 
 # The second modle offers a better fit
 
