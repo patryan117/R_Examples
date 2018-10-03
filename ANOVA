@@ -1,3 +1,4 @@
+
 library(ggplot2)
 library(e1071)
 library(dplyr)
@@ -11,7 +12,7 @@ library(magrittr)
 # Use R to calculate the quantities and generate the visual summaries requested below.
 
 
-# (1) Save the data to a file  (excel or CSV file) and read it into R memory for analysis. (Q1 -  2 points)
+# (1) Save the data to a file  (excel or CSV file) and read it into R memory for analysis.
 
 setwd("C:/Users/patry/OneDrive/Desktop")
 df = read.csv("student_iq_test.csv", header=T, sep=",", fileEncoding="UTF-8-BOM", stringsAsFactors = F)
@@ -19,7 +20,7 @@ df
 
 # How many students are in each group?  
 # Summarize the data relating to both test score and age by the student group (separately).  
-# Use appropriate numerical and/or graphical summaries.  (3 points)
+# Use appropriate numerical and/or graphical summaries. 
 
 
 
@@ -46,7 +47,6 @@ plot.1
 # Summarize the results using the 5 step procedure. 
 # If the results of the overall model are significant, perform the appropriate pairwise 
 # comparisons using Tukey's procedure to adjust for multiple comparisons and summarize these results. 
-# (7 points) 
 
 
 # Analysis of variance model
@@ -118,6 +118,7 @@ TukeyHSD(model)
 # Physics student-Chemistry student -12.133333 -16.299422 -7.9672445 0.0000000
 # Physics student-Math student       -3.466667  -7.632756  0.6994222 0.1194835
 
+
 model.1 <- model
 model.1
 
@@ -126,7 +127,7 @@ model.1
 # Create an appropriate number of dummy variables for student group and re-run the
 # one-way ANOVA using the lm function with the newly created dummy variables.  
 # Set chemistry students as the reference group.  Confirm if the results are the same.  
-# What is the interpretation of the beta estimates from the regression model?  (4 points)
+# What is the interpretation of the beta estimates from the regression model? 
 
 
 # Am i supposed to compare a lm with just 1 dummy variable and a seperate lm with dummy test with 3 variables? 
@@ -141,11 +142,11 @@ dummy.df
 model <- lm(dummy.df$iq ~  dummy.df$is.physics.student + dummy.df$is.math.student, data = dummy.df)
 summary(model)
 
-
 model.2 <- model
 
 
 # Confirm if the results are the same:
+
 anova(model.1)
 anova(model.2)
 
@@ -172,7 +173,6 @@ plot.2
 summary(model)
 
 # Interpretation:  
-
 # The y intercept looks to be the mean of the students who are not chemistry students
 # and it appears to slope to meet the mean of students who are chemistry students
 
@@ -187,39 +187,17 @@ mean(subset(dummy.df, dummy.df$is.chemistry.student == 1)$iq)
 
 
 
+# (4)	Re-do the one-way ANOVA adjusting for age. 
 
-
-
-
-
-
-
-
-# (4)	Re-do the one-way ANOVA adjusting for age.   Focus on the output relating to the
-# comparisons of test score by student type.  
-# Explain how this analysis differs from the analysis in step 2 above (not the results but how does this
-# analysis differ in terms of the questions it answers as opposed to the one above).  
-# Did you obtain different results?  Summarize briefly (no need to go through the 5 -step procedure here).   
-# Present the least square means and interpret these. (6 points)
-
-
-# plot means using plotly boxplot
 plot.3 <- plot_ly(df, y = ~iq, color = ~group, type = "box")
 plot.3
 
 model <- aov(iq ~ group + age, data=df)
 summary(model)
 
-
 (Anova(lm(df$iq~df$group+df$age), type=3))
 
 
-# Summary:
-# There is a strong statistical 
-
-
-
-# How is this analysis differnt?:
 # This analysis accounted for adjustment of the age variable.  
 # This time we are evaluationg whetier the means of a dependent categorical variable (IQ Test Score) are equal across levels of a 
 # categorical independent variable (student type), while statistically controlling for the effects of a continuious variable (age).
